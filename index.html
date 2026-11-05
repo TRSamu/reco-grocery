@@ -1,0 +1,1694 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5, viewport-fit=cover" />
+  <meta name="theme-color" content="#001b0e" />
+  <title>$500 Grocery Card — Check Your Household Eligibility</title>
+  <meta name="description" content="Rising food prices hurting your family budget? Answer 3 quick questions to check if you qualify for a $500 Grocery Card. Free to claim." />
+  <meta property="og:title" content="$500 Grocery Card — Free Household Eligibility Check" />
+  <meta property="og:description" content="See if your household qualifies in under 30 seconds for a $500 Grocery Card." />
+  <meta property="og:type" content="website" />
+  <meta property="og:image" content="assets/reco-icon.jpg" />
+  <meta name="twitter:card" content="summary" />
+  <link rel="icon" type="image/jpeg" href="assets/reco-icon.jpg" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@500;600;700;800;900&display=swap" />
+  <style>
+    :root {
+      --bg: #f2fbf3;
+      --card: #ffffff;
+      --ink: #062015;
+      --muted: #3f544a;
+      --green: #009b3a;
+      --green-dark: #007f30;
+      --line: #d4e5d8;
+      --soft: #edf7ee;
+      --danger: #b03520;
+      --reco-grad: linear-gradient(90deg, #3b63f3 0%, #7d4be6 42%, #c95292 76%, #df8d59 100%);
+    }
+
+    * {
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    html, body {
+      margin: 0;
+      padding: 0;
+      min-height: 100%;
+      font-family: 'Nunito', system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      color: var(--ink);
+      background: linear-gradient(135deg, #f4fcf4 0%, #ffffff 48%, #e8f8e9 100%);
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+
+    body {
+      min-height: 100vh;
+      padding-bottom: calc(108px + env(safe-area-inset-bottom, 0px));
+    }
+
+    button, a {
+      touch-action: manipulation;
+      font-family: inherit;
+      -webkit-appearance: none;
+      appearance: none;
+    }
+
+    .hidden {
+      display: none !important;
+    }
+
+    /* ===== TOP LIVE BAR ===== */
+    .topbar {
+      min-height: 42px;
+      background: #001b0e;
+      color: #ffffff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 13.5px;
+      font-weight: 700;
+      padding: 8px 12px;
+      text-align: center;
+    }
+
+    .live-dot {
+      width: 9px;
+      height: 9px;
+      border-radius: 999px;
+      background: #13c65a;
+      margin-right: 9px;
+      box-shadow: 0 0 0 4px rgba(19, 198, 90, 0.18);
+      flex-shrink: 0;
+      animation: pulse-green 1.5s ease-in-out infinite;
+    }
+
+    @keyframes pulse-green {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.45; }
+    }
+
+    .topbar strong {
+      margin: 0 4px;
+      color: #55f28f;
+      font-weight: 900;
+    }
+
+    /* ===== FLOATING NOTIFICATION TOAST (LIGHT & FRIENDLY) ===== */
+    .notif-toast {
+      position: fixed;
+      top: calc(10px + env(safe-area-inset-top, 0px));
+      left: 50%;
+      transform: translate3d(-50%, -150%, 0);
+      width: calc(100% - 24px);
+      max-width: 430px;
+      background: rgba(255, 255, 255, 0.98);
+      border: 1.5px solid #c5dfd0;
+      border-radius: 16px;
+      padding: 11px 14px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      z-index: 95;
+      box-shadow: 0 14px 34px rgba(6, 32, 21, 0.16);
+      transition: transform 0.42s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.3s ease;
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .notif-toast.show {
+      transform: translate3d(-50%, 0, 0);
+      opacity: 1;
+    }
+
+    .notif-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 10px;
+      flex: 0 0 40px;
+      object-fit: cover;
+      box-shadow: 0 3px 10px rgba(0, 0, 0, 0.12);
+    }
+
+    .notif-body {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .notif-meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 11.5px;
+      font-weight: 800;
+      color: #556b60;
+      letter-spacing: 0.4px;
+      margin-bottom: 2px;
+    }
+
+    .notif-text {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--ink);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .notif-text strong {
+      color: var(--green);
+      font-weight: 900;
+    }
+
+    /* ===== MAIN SHELL & PANEL ===== */
+    .shell {
+      width: min(100%, 540px);
+      margin: 0 auto;
+      padding: 14px 12px 28px;
+    }
+
+    .panel {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      box-shadow: 0 16px 44px -18px rgba(0, 100, 40, 0.22);
+      overflow: hidden;
+    }
+
+    .accent {
+      height: 6px;
+      background: linear-gradient(90deg, var(--green), #f0bd22, var(--green));
+    }
+
+    .inner {
+      padding: 22px 18px 26px;
+    }
+
+    /* ===== PROGRESS BAR ===== */
+    .progress-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      color: #4c5f55;
+      font-size: 13px;
+      font-weight: 800;
+      margin-bottom: 7px;
+    }
+
+    .progress {
+      height: 9px;
+      border-radius: 99px;
+      background: #e9f2eb;
+      overflow: hidden;
+      margin-bottom: 20px;
+    }
+
+    .progress > span {
+      display: block;
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, var(--green), #18b957);
+      transition: width 0.35s ease;
+    }
+
+    /* ===== STEP 0: FIRST PAGE (INTRO) ===== */
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      border: 1px solid #ffb98d;
+      background: #fff1e9;
+      color: #402113;
+      border-radius: 99px;
+      padding: 6px 13px;
+      font-size: 13px;
+      font-weight: 800;
+      margin-bottom: 14px;
+    }
+
+    .headline {
+      font-size: 28px;
+      line-height: 1.15;
+      letter-spacing: -0.6px;
+      margin: 0;
+      font-weight: 900;
+      color: var(--ink);
+    }
+
+    .headline-green {
+      color: var(--green);
+    }
+
+    .lead {
+      color: var(--muted);
+      font-size: 16px;
+      line-height: 1.55;
+      margin: 14px 0 0;
+      font-weight: 600;
+    }
+
+    .lead strong {
+      color: var(--ink);
+      font-weight: 900;
+    }
+
+    .hero-card-light {
+      margin-top: 18px;
+      background: linear-gradient(145deg, #effaf1 0%, #e3f6e7 100%);
+      border: 2px solid #b7e2c2;
+      border-radius: 18px;
+      padding: 18px 16px;
+      text-align: center;
+    }
+
+    .hero-card-label {
+      font-size: 12px;
+      font-weight: 900;
+      letter-spacing: 1.4px;
+      text-transform: uppercase;
+      color: #2d593e;
+    }
+
+    .hero-card-amount {
+      font-size: 56px;
+      line-height: 1.05;
+      font-weight: 900;
+      color: var(--green);
+      margin: 4px 0;
+      letter-spacing: -1.5px;
+    }
+
+    .hero-card-sub {
+      font-size: 14.5px;
+      font-weight: 800;
+      color: var(--ink);
+    }
+
+    .primary-btn {
+      width: 100%;
+      border: 0;
+      border-radius: 15px;
+      background: linear-gradient(90deg, var(--green), #00ad43);
+      color: #ffffff;
+      font-size: 18px;
+      font-weight: 900;
+      padding: 17px 18px;
+      min-height: 56px;
+      box-shadow: 0 10px 22px rgba(0, 155, 58, 0.28);
+      cursor: pointer;
+      transition: filter 0.15s ease, transform 0.08s ease;
+      margin-top: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      text-decoration: none;
+    }
+
+    .primary-btn:hover {
+      filter: brightness(1.06);
+    }
+
+    .primary-btn:active {
+      transform: scale(0.985);
+    }
+
+    .trust {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 8px;
+      margin-top: 16px;
+    }
+
+    .trust span {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      border-radius: 12px;
+      background: #edf5ee;
+      border: 1px solid #d9e8dc;
+      color: #172a20;
+      font-size: 13px;
+      font-weight: 800;
+      padding: 10px 6px;
+    }
+
+    /* ===== STEP 1–3: 3 QUESTIONS QUIZ ===== */
+    .question-sec, .checking-sec, .result-sec {
+      display: none;
+    }
+
+    .question-sec.show, .checking-sec.show, .result-sec.show {
+      display: block;
+    }
+
+    .qtag {
+      display: inline-flex;
+      background: #e7f7eb;
+      border: 1px solid #bce4c6;
+      color: #087b36;
+      border-radius: 99px;
+      padding: 6px 13px;
+      font-size: 13px;
+      font-weight: 900;
+    }
+
+    .qtitle {
+      font-size: 24px;
+      line-height: 1.22;
+      margin: 14px 0 0;
+      font-weight: 900;
+      letter-spacing: -0.4px;
+      color: var(--ink);
+    }
+
+    .qdesc {
+      font-size: 15px;
+      line-height: 1.45;
+      color: var(--muted);
+      margin: 8px 0 0;
+      font-weight: 600;
+    }
+
+    .options {
+      display: grid;
+      gap: 12px;
+      margin-top: 20px;
+    }
+
+    .option {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      text-align: left;
+      border: 2px solid var(--line);
+      border-radius: 15px;
+      background: #ffffff;
+      padding: 15px 14px;
+      cursor: pointer;
+      transition: border-color 0.15s ease, background 0.15s ease, transform 0.08s ease;
+      color: var(--ink);
+    }
+
+    .option:hover {
+      border-color: #35b25b;
+      background: #f4fbf5;
+    }
+
+    .option:active {
+      transform: scale(0.985);
+    }
+
+    .option-icon {
+      width: 48px;
+      height: 48px;
+      flex: 0 0 48px;
+      display: grid;
+      place-items: center;
+      border-radius: 13px;
+      background: #eaf5ec;
+      font-size: 24px;
+    }
+
+    .option b {
+      display: block;
+      font-size: 16.5px;
+      font-weight: 900;
+      color: var(--ink);
+    }
+
+    .option small {
+      display: block;
+      color: var(--muted);
+      font-size: 13.5px;
+      line-height: 1.35;
+      margin-top: 3px;
+      font-weight: 600;
+    }
+
+    /* ===== STEP 4: CHECKING ELIGIBILITY ===== */
+    .check-wrap {
+      text-align: center;
+      padding: 20px 0 10px;
+    }
+
+    .spinner {
+      width: 58px;
+      height: 58px;
+      border-radius: 50%;
+      border: 6px solid #dff2e3;
+      border-top-color: var(--green);
+      margin: 0 auto 18px;
+      animation: spin 0.9s linear infinite;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    .check-wrap h2 {
+      margin: 0;
+      font-size: 24px;
+      font-weight: 900;
+      color: var(--ink);
+    }
+
+    .check-wrap p {
+      color: var(--muted);
+      font-size: 15.5px;
+      font-weight: 600;
+      margin: 8px 0 0;
+    }
+
+    .verify-list {
+      max-width: 400px;
+      margin: 24px auto 0;
+      display: grid;
+      gap: 11px;
+      text-align: left;
+    }
+
+    .verify-item {
+      display: flex;
+      align-items: center;
+      gap: 13px;
+      border: 2px solid #a9dfb9;
+      background: #eef8f0;
+      border-radius: 18px;
+      padding: 13px 15px;
+      min-height: 60px;
+      font-weight: 800;
+      font-size: 15.5px;
+      color: var(--ink);
+      opacity: 0.4;
+      transform: translateY(5px);
+      transition: opacity 0.3s ease, transform 0.3s ease;
+    }
+
+    .verify-item.done {
+      opacity: 1;
+      transform: none;
+    }
+
+    .verify-check {
+      width: 32px;
+      height: 32px;
+      flex: 0 0 32px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      background: #06a849;
+      color: #ffffff;
+      font-size: 19px;
+      font-weight: 900;
+    }
+
+    .verify-check::before {
+      content: '✓';
+    }
+
+    .verify-item:not(.done) .verify-check::before {
+      content: '';
+    }
+
+    /* ===== STEP 5: RESULT PAGE (AFTER 3 QUESTIONS) ===== */
+    .result-header {
+      text-align: center;
+    }
+
+    .celebrate {
+      width: 72px;
+      height: 72px;
+      display: grid;
+      place-items: center;
+      border-radius: 50%;
+      background: #dff6e5;
+      font-size: 40px;
+      margin: 0 auto;
+    }
+
+    .result-header h2 {
+      font-size: 29px;
+      font-weight: 900;
+      margin: 12px 0 0;
+      color: var(--ink);
+    }
+
+    .result-desc {
+      color: var(--muted);
+      font-size: 15.5px;
+      line-height: 1.5;
+      margin: 8px 0 0;
+      font-weight: 600;
+    }
+
+    .result-desc strong {
+      color: var(--ink);
+      font-weight: 900;
+    }
+
+    .reward-card {
+      border: 2px dashed #4bbd6c;
+      background: #f1fbf3;
+      border-radius: 18px;
+      padding: 16px;
+      margin-top: 16px;
+      text-align: center;
+    }
+
+    .reward-label {
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--muted);
+      font-weight: 900;
+      font-size: 12px;
+    }
+
+    .reward-amount {
+      font-size: 56px;
+      line-height: 1;
+      font-weight: 900;
+      color: var(--green);
+      margin-top: 4px;
+    }
+
+    .reward-name {
+      font-size: 14.5px;
+      font-weight: 800;
+      color: var(--ink);
+      margin-top: 5px;
+    }
+
+    .expires-wrap {
+      text-align: center;
+      margin-top: 14px;
+    }
+
+    .expires {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      border: 1.5px solid #f2b8af;
+      background: #fff0ed;
+      color: var(--danger);
+      border-radius: 99px;
+      padding: 8px 15px;
+      font-size: 14px;
+      font-weight: 900;
+    }
+
+    /* 3-Column Stats Bar (Light Theme) */
+    .stats-bar {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      background: #f5faf6;
+      border: 1.5px solid var(--line);
+      border-radius: 16px;
+      padding: 13px 6px;
+      margin-top: 16px;
+      text-align: center;
+    }
+
+    .stat-item {
+      position: relative;
+      padding: 0 4px;
+    }
+
+    .stat-item:not(:last-child)::after {
+      content: "";
+      position: absolute;
+      right: 0;
+      top: 15%;
+      height: 70%;
+      width: 1px;
+      background: var(--line);
+    }
+
+    .stat-val {
+      font-size: 17px;
+      font-weight: 900;
+      color: var(--ink);
+    }
+
+    .stat-val.green {
+      color: var(--green);
+    }
+
+    .stat-lbl {
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 0.6px;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-top: 2px;
+    }
+
+    /* HOW TO CLAIM YOUR $500 (Light Theme, High Contrast for 35+) */
+    .steps-card {
+      background: #f7fcf8;
+      border: 2px solid #cce3d1;
+      border-radius: 18px;
+      padding: 18px 15px;
+      margin-top: 16px;
+      text-align: left;
+    }
+
+    .steps-header {
+      font-size: 13px;
+      font-weight: 900;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: #2b4939;
+      margin: 0 0 12px;
+    }
+
+    .step-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 9px 0;
+    }
+
+    .step-num {
+      width: 30px;
+      height: 30px;
+      flex: 0 0 30px;
+      border-radius: 9px;
+      background: #dcf5e3;
+      border: 1.5px solid #9adbb0;
+      color: #057a30;
+      font-size: 14px;
+      font-weight: 900;
+      display: grid;
+      place-items: center;
+    }
+
+    .step-text {
+      font-size: 15.5px;
+      line-height: 1.38;
+      color: var(--ink);
+      font-weight: 700;
+    }
+
+    .step-text strong {
+      color: #007a2d;
+      font-weight: 900;
+    }
+
+    /* Step 2 Highlighted Reco Card (Light Theme) */
+    .step-featured {
+      margin: 8px 0;
+      padding: 13px 14px;
+      border-radius: 16px;
+      background: linear-gradient(135deg, #f3f0ff 0%, #fdf2f8 100%);
+      border: 2px solid #9c7ff7;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      cursor: pointer;
+      box-shadow: 0 6px 18px rgba(109, 72, 229, 0.12);
+      transition: transform 0.1s ease;
+    }
+
+    .step-featured:active {
+      transform: scale(0.985);
+    }
+
+    .step-featured-left {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      min-width: 0;
+    }
+
+    .step-reco-icon {
+      width: 48px;
+      height: 48px;
+      flex: 0 0 48px;
+      border-radius: 12px;
+      object-fit: cover;
+      box-shadow: 0 4px 12px rgba(109, 72, 229, 0.25);
+    }
+
+    .step-featured-title {
+      font-size: 16px;
+      font-weight: 900;
+      color: #1e1638;
+      line-height: 1.25;
+    }
+
+    .step-featured-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      margin-top: 4px;
+      padding: 3px 9px;
+      border-radius: 6px;
+      background: #e6deff;
+      color: #532bc9;
+      font-size: 11px;
+      font-weight: 900;
+      letter-spacing: 0.4px;
+      text-transform: uppercase;
+    }
+
+    .step-num-solid {
+      width: 30px;
+      height: 30px;
+      flex: 0 0 30px;
+      border-radius: 9px;
+      background: var(--green);
+      color: #ffffff;
+      font-size: 14px;
+      font-weight: 900;
+      display: grid;
+      place-items: center;
+    }
+
+    .hold-note {
+      font-size: 13.5px;
+      font-weight: 800;
+      color: #7c3524;
+      background: #fff7f1;
+      border: 1.5px solid #f6d5c5;
+      border-radius: 13px;
+      padding: 11px 14px;
+      margin: 14px 0 0;
+      line-height: 1.42;
+      text-align: center;
+    }
+
+    .hold-note strong {
+      color: var(--danger);
+    }
+
+    .fine-spots {
+      font-size: 13.5px;
+      font-weight: 800;
+      color: var(--muted);
+      text-align: center;
+      margin: 14px 0 0;
+    }
+
+    .fine-spots strong {
+      color: var(--danger);
+      font-weight: 900;
+    }
+
+    /* ===== FOOTER ===== */
+    .footer-links {
+      margin-top: 22px;
+      padding-top: 16px;
+      border-top: 1px solid #e4efe6;
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+    }
+
+    .footer-links a {
+      color: #5b7065;
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 12.5px;
+    }
+
+    /* ===== STICKY BOTTOM CTA BAR (LIGHT THEME) ===== */
+    .sticky-bar {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: rgba(255, 255, 255, 0.96);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-top: 1.5px solid #cde2d2;
+      padding: 10px 14px calc(10px + env(safe-area-inset-bottom, 0px));
+      z-index: 80;
+      box-shadow: 0 -8px 24px rgba(0, 60, 20, 0.08);
+    }
+
+    .sticky-inner {
+      max-width: 510px;
+      margin: 0 auto;
+      text-align: center;
+    }
+
+    .sticky-inner .primary-btn {
+      margin-top: 0;
+      padding: 15px 18px;
+      min-height: 52px;
+      font-size: 17px;
+    }
+
+    .sticky-sub {
+      font-size: 12px;
+      color: var(--muted);
+      margin-top: 5px;
+      font-weight: 800;
+    }
+
+    .sticky-sub strong {
+      color: var(--danger);
+    }
+
+    /* ===== BOTTOM SHEET MODAL (LIGHT & TRUSTWORTHY FOR 35+) ===== */
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(6, 32, 21, 0.62);
+      backdrop-filter: blur(6px);
+      -webkit-backdrop-filter: blur(6px);
+      z-index: 200;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.28s ease;
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+    }
+
+    .modal-backdrop.open {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .modal-sheet {
+      width: 100%;
+      max-width: 480px;
+      background: #ffffff;
+      border-top: 3px solid var(--green);
+      border-radius: 26px 26px 0 0;
+      padding: 12px 20px calc(26px + env(safe-area-inset-bottom, 0px));
+      position: relative;
+      transform: translateY(100%);
+      transition: transform 0.34s cubic-bezier(0.22, 1, 0.36, 1);
+      text-align: center;
+      box-shadow: 0 -16px 48px rgba(0, 0, 0, 0.28);
+    }
+
+    .modal-backdrop.open .modal-sheet {
+      transform: translateY(0);
+    }
+
+    .modal-handle {
+      width: 44px;
+      height: 5px;
+      border-radius: 999px;
+      background: #d0ddd4;
+      margin: 0 auto 16px;
+    }
+
+    .modal-close {
+      position: absolute;
+      top: 14px;
+      right: 14px;
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      border: 1px solid #d5e3d8;
+      background: #f3f8f4;
+      color: #3f544a;
+      font-size: 20px;
+      font-weight: 800;
+      line-height: 1;
+      display: grid;
+      place-items: center;
+      cursor: pointer;
+    }
+
+    .modal-reco-logo {
+      width: 74px;
+      height: 74px;
+      border-radius: 18px;
+      object-fit: cover;
+      margin: 4px auto 14px;
+      display: block;
+      box-shadow: 0 8px 24px rgba(109, 72, 229, 0.28);
+    }
+
+    .modal-step-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: #e6f8ec;
+      border: 1px solid #a8e0b9;
+      color: #057a30;
+      border-radius: 99px;
+      padding: 5px 13px;
+      font-size: 12px;
+      font-weight: 900;
+      letter-spacing: 0.8px;
+      text-transform: uppercase;
+      margin-bottom: 10px;
+    }
+
+    .modal-title {
+      font-size: 26px;
+      font-weight: 900;
+      letter-spacing: -0.5px;
+      margin: 0 0 10px;
+      color: var(--ink);
+    }
+
+    .reco-grad-text {
+      background: var(--reco-grad);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    .modal-desc {
+      font-size: 15.5px;
+      line-height: 1.5;
+      color: var(--muted);
+      margin: 0 auto 18px;
+      max-width: 370px;
+      font-weight: 600;
+    }
+
+    .modal-desc strong {
+      color: var(--ink);
+      font-weight: 900;
+    }
+
+    .modal-req-box {
+      background: #f5f2ff;
+      border: 2px solid #b8a3f8;
+      border-radius: 16px;
+      padding: 15px 14px;
+      display: flex;
+      align-items: center;
+      gap: 13px;
+      text-align: left;
+      margin-bottom: 18px;
+      transition: border-color 0.25s ease, transform 0.2s ease;
+    }
+
+    .modal-req-box.shake {
+      border-color: var(--danger);
+      background: #fff2ef;
+      animation: shake-box 0.4s ease;
+    }
+
+    @keyframes shake-box {
+      0%, 100% { transform: translateX(0); }
+      25% { transform: translateX(-6px); }
+      75% { transform: translateX(6px); }
+    }
+
+    .modal-req-num {
+      width: 44px;
+      height: 44px;
+      flex: 0 0 44px;
+      border-radius: 12px;
+      background: var(--reco-grad);
+      color: #ffffff;
+      font-size: 19px;
+      font-weight: 900;
+      display: grid;
+      place-items: center;
+      box-shadow: 0 4px 12px rgba(109, 72, 229, 0.25);
+    }
+
+    .modal-req-title {
+      font-size: 15.5px;
+      font-weight: 900;
+      color: #1e1638;
+      line-height: 1.3;
+    }
+
+    .modal-req-sub {
+      font-size: 13.5px;
+      color: #4f466b;
+      margin-top: 3px;
+      line-height: 1.35;
+      font-weight: 700;
+    }
+
+    .btn-reco-unlock {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      width: 100%;
+      border: 0;
+      border-radius: 16px;
+      background: linear-gradient(90deg, var(--green), #00ad43);
+      color: #ffffff;
+      font-size: 18px;
+      font-weight: 900;
+      padding: 17px 20px;
+      min-height: 56px;
+      text-decoration: none;
+      cursor: pointer;
+      box-shadow: 0 10px 24px rgba(0, 155, 58, 0.3);
+      transition: transform 0.1s ease, filter 0.15s ease;
+    }
+
+    .btn-reco-unlock:hover {
+      filter: brightness(1.06);
+    }
+
+    .btn-reco-unlock:active {
+      transform: scale(0.985);
+    }
+
+    .modal-continue-link {
+      display: inline-block;
+      margin-top: 15px;
+      background: none;
+      border: 0;
+      color: #4a5d52;
+      font-size: 13.5px;
+      font-weight: 800;
+      cursor: pointer;
+      padding: 6px 10px;
+      text-decoration: underline;
+    }
+
+    .modal-status-msg {
+      display: none;
+      font-size: 13.5px;
+      font-weight: 800;
+      color: #9e2512;
+      background: #fff0ed;
+      border: 1.5px solid #f2b8af;
+      border-radius: 12px;
+      padding: 10px 13px;
+      margin-top: 12px;
+      line-height: 1.4;
+    }
+
+    .modal-status-msg.show {
+      display: block;
+    }
+
+    @media (max-width: 360px) {
+      .headline { font-size: 24px; }
+      .hero-card-amount, .reward-amount { font-size: 46px; }
+      .qtitle { font-size: 21px; }
+    }
+  </style>
+  <!-- Put meta pixel code below this line. -->
+  <!-- Add your approved Meta Pixel snippet here when you are ready to measure page activity. -->
+  <script src="cta-config.js"></script>
+</head>
+<body>
+
+  <!-- Top Live Activity Bar -->
+  <div class="topbar">
+    <span class="live-dot"></span>
+    <span>🛒 <strong id="watchCount">68</strong> people checking eligibility right now</span>
+  </div>
+
+  <!-- Floating Notification Toast (Shown only on Result screen after the 3 questions) -->
+  <div id="notifToast" class="notif-toast" role="status" aria-live="polite">
+    <img src="assets/reco-icon.jpg" alt="Reco" class="notif-icon" />
+    <div class="notif-body">
+      <div class="notif-meta">
+        <span>RECO REWARDS</span>
+        <span id="notifTime">Just now</span>
+      </div>
+      <div id="notifText" class="notif-text">
+        Camila F. just unlocked her <strong>$500 Grocery Card</strong>
+      </div>
+    </div>
+  </div>
+
+  <main class="shell">
+    <div class="panel">
+      <div class="accent"></div>
+      <div class="inner">
+
+        <!-- Progress Row -->
+        <div class="progress-row">
+          <span id="stepLabel">Get Started</span>
+          <span id="percent">0%</span>
+        </div>
+        <div class="progress">
+          <span id="progressFill"></span>
+        </div>
+
+        <!-- ==================== STEP 0: PRIMA PAGINA (INTRO PULITA) ==================== -->
+        <section id="introSection">
+          <div class="badge">🔥 Household Relief — Limited Availability</div>
+
+          <h1 class="headline">
+            <span class="headline-green">Claim</span> Your <span class="headline-green">$500</span> <span class="headline-green">Grocery Card</span> Today
+          </h1>
+
+          <p class="lead">
+            Food prices keep climbing — and your family's weekly grocery bill feels it. Answer <strong>3 quick questions</strong> below to check if a <strong>$500 Grocery Card</strong> is available for your household today.
+          </p>
+
+          <div class="hero-card-light">
+            <div class="hero-card-label">Available Household Relief</div>
+            <div class="hero-card-amount">$500</div>
+            <div class="hero-card-sub">🛒 Grocery Reward Card — 100% Free Check</div>
+          </div>
+
+          <button type="button" class="primary-btn" data-start-quiz="true">
+            <span>▶</span>
+            <span>Check My Eligibility Now</span>
+          </button>
+
+          <div class="trust">
+            <span>🔒 100% Secure</span>
+            <span>🇺🇸 US Residents</span>
+            <span>⚡ Takes 30 Seconds</span>
+            <span>💯 No Credit Card</span>
+          </div>
+        </section>
+
+        <!-- ==================== STEP 1–3: LE 3 DOMANDE ==================== -->
+        <section id="questionSection" class="question-sec" aria-live="polite"></section>
+
+        <!-- ==================== STEP 4: VERIFICA IDONEITÀ ==================== -->
+        <section id="checkingSection" class="checking-sec" aria-live="polite">
+          <div class="check-wrap">
+            <div class="spinner"></div>
+            <h2>Checking Your Eligibility...</h2>
+            <p>Matching your household profile against available rewards</p>
+            <div class="verify-list">
+              <div class="verify-item" data-check="0">
+                <span class="verify-check"></span>
+                <span>Verifying age requirement (18+)</span>
+              </div>
+              <div class="verify-item" data-check="1">
+                <span class="verify-check"></span>
+                <span>Confirming US residency</span>
+              </div>
+              <div class="verify-item" data-check="2">
+                <span class="verify-check"></span>
+                <span>Reserving your $500 Grocery Card spot</span>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ==================== STEP 5: PAGINA FINALE (DOPO LE 3 DOMANDE) ==================== -->
+        <section id="resultSection" class="result-sec" aria-live="polite">
+          <div class="result-header">
+            <div class="celebrate">🎉</div>
+            <h2>You Qualify!</h2>
+            <p class="result-desc">
+              Great news! A <strong>$500 Grocery Card</strong> has been reserved for you. Follow the simple steps below to unlock and claim your card right now.
+            </p>
+          </div>
+
+          <div class="reward-card">
+            <div class="reward-label">Your Reserved Reward Value</div>
+            <div class="reward-amount">$500</div>
+            <div class="reward-name">🛒 Grocery Relief Card — Ready to Unlock</div>
+          </div>
+
+          <div class="expires-wrap">
+            <div class="expires">
+              <span>⏳</span>
+              <span>Your spot is held for <strong id="expiry">4:59</strong></span>
+            </div>
+          </div>
+
+          <!-- 3-Column Stats Bar -->
+          <div class="stats-bar" aria-label="Offer statistics">
+            <div class="stat-item">
+              <div id="redeemedCount" class="stat-val">12,859</div>
+              <div class="stat-lbl">REDEEMED</div>
+            </div>
+            <div class="stat-item">
+              <div id="lastClaimed" class="stat-val green">2 min ago</div>
+              <div class="stat-lbl">LAST CLAIMED</div>
+            </div>
+            <div class="stat-item">
+              <div class="stat-val">&lt;5 min</div>
+              <div class="stat-lbl">AVG. TIME</div>
+            </div>
+          </div>
+
+          <!-- HOW TO CLAIM YOUR $500 (Compare solo DOPO le 3 domande) -->
+          <div class="steps-card">
+            <h3 class="steps-header">HOW TO CLAIM YOUR $500</h3>
+
+            <div class="step-row">
+              <div class="step-num">1</div>
+              <div class="step-text">
+                Tap the green button below to claim your <strong>$500 spot</strong>
+              </div>
+            </div>
+
+            <div class="step-featured" data-open-modal="true" role="button" tabindex="0">
+              <div class="step-featured-left">
+                <img src="assets/reco-icon.jpg" alt="Reco Social" class="step-reco-icon" />
+                <div>
+                  <div class="step-featured-title">Download &amp; Join Reco</div>
+                  <div class="step-featured-badge">★ QUICK UNLOCK STEP</div>
+                </div>
+              </div>
+              <div class="step-num-solid">2</div>
+            </div>
+
+            <div class="step-row">
+              <div class="step-num">3</div>
+              <div class="step-text">
+                Return here to <strong>unlock your $500 Grocery Card</strong>
+              </div>
+            </div>
+
+            <div class="step-row">
+              <div class="step-num">4</div>
+              <div class="step-text">
+                Receive your <strong>$500 Grocery balance</strong>
+              </div>
+            </div>
+          </div>
+
+          <button type="button" class="primary-btn" data-open-modal="true">
+            <span>🎁</span>
+            <span>Claim My $500 Grocery Card →</span>
+          </button>
+
+          <p class="hold-note">
+            ⚠️ Eligibility is held for this visit only — spots are claimed in order and your spot is <strong>not reserved until you complete Step 1</strong>.
+          </p>
+
+          <p class="fine-spots">
+            Only <strong id="spots">22</strong> spots remaining today
+          </p>
+        </section>
+
+        <!-- Footer Links -->
+        <div class="footer-links">
+          <a href="#terms" onclick="event.preventDefault();alert('Terms of Service: Open to US residents 18+. Complete required app installation and registration steps to qualify.');">Terms</a>
+          <a href="#privacy" onclick="event.preventDefault();alert('Privacy Policy: We respect your privacy. No personal data is stored on this pre-lander.');">Privacy</a>
+          <a href="#contact" onclick="event.preventDefault();alert('Support: Please complete Step 1 in the Reco app to unlock your reward status.');">Contact</a>
+        </div>
+
+      </div>
+    </div>
+  </main>
+
+  <!-- Sticky Bottom Bar (Shown on the Result page after the 3 questions) -->
+  <div id="stickyBar" class="sticky-bar hidden">
+    <div class="sticky-inner">
+      <button type="button" class="primary-btn" data-open-modal="true">
+        <span>🎁</span>
+        <span>Claim My $500 Grocery Card →</span>
+      </button>
+      <div class="sticky-sub">
+        <strong>Grocery spots almost gone</strong> · No credit card needed
+      </div>
+    </div>
+  </div>
+
+  <!-- Bottom Sheet Modal (STEP 1 REQUIRED — Light & Friendly for Over 35) -->
+  <div id="recoModal" class="modal-backdrop" aria-hidden="true">
+    <div class="modal-sheet" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+      <div class="modal-handle"></div>
+      <button type="button" id="closeModalBtn" class="modal-close" aria-label="Close">×</button>
+
+      <img src="assets/reco-icon.jpg" alt="Reco App" class="modal-reco-logo" />
+
+      <div class="modal-step-tag">
+        <span>✅</span>
+        <span>STEP 1 REQUIRED</span>
+      </div>
+
+      <h2 id="modalTitle" class="modal-title">
+        Download &amp; Join <span class="reco-grad-text">Reco</span>
+      </h2>
+
+      <p class="modal-desc">
+        Download the free <strong>Reco</strong> app and create your free account to qualify. Once finished, <strong>come right back here</strong> to unlock your <strong>$500 Grocery Card</strong>!
+      </p>
+
+      <div id="reqBox" class="modal-req-box">
+        <div class="modal-req-num">1</div>
+        <div>
+          <div class="modal-req-title">Register on Reco &amp; select 18+ at signup</div>
+          <div class="modal-req-sub">Required to unlock Step 2 and claim your $500 grocery reward</div>
+        </div>
+      </div>
+
+      <!-- Destination URL comes from cta-config.js (https://tk.freerewards.blog/cf/click/1) -->
+      <a id="recoDownloadCta" href="https://tk.freerewards.blog/cf/click/1" target="_blank" rel="nofollow sponsored noopener" class="btn-reco-unlock">
+        <span>📲 Download Reco &amp; Unlock</span>
+        <span aria-hidden="true">→</span>
+      </a>
+
+      <div id="modalStatusMsg" class="modal-status-msg">
+        ⚠️ Please tap the green <strong>"Download Reco &amp; Unlock"</strong> button above to install the free app and create your account first!
+      </div>
+
+      <button type="button" id="alreadyRegisteredBtn" class="modal-continue-link">
+        I registered on Reco, continue to $500 Grocery Card
+      </button>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      var started = false;
+      var ended = false;
+      var quizCompleted = false;
+      var hasClickedDownload = false;
+      var notifInterval = null;
+
+      // 3 Questions tailored for US 35+ Facebook Audience
+      var questions = [
+        {
+          title: "Are you 18 years or older?",
+          desc: "This household promotion is open to US residents who are at least 18 years old.",
+          options: [
+            ["✅", "Yes, I'm 18 or older", "I meet the age requirement"],
+            ["❌", "No, I'm under 18", "I don't meet the age requirement"]
+          ]
+        },
+        {
+          title: "Have rising grocery prices made it harder to feed your family?",
+          desc: "There is one more quick question — we'll check your eligibility instantly after this.",
+          options: [
+            ["🛒", "Yes, every week is a struggle", "Groceries are eating my budget"],
+            ["📅", "Sometimes, I have to cut back", "I feel the squeeze often"],
+            ["🥫", "A little, but we manage", "Prices are still concerning"]
+          ]
+        },
+        {
+          title: "If you qualify today, how would you use your $500 Grocery Card?",
+          desc: "Last step — we will reserve your $500 Grocery Card spot right after this.",
+          options: [
+            ["🍎", "Weekly family groceries & fresh food", "Help cover our household food bill"],
+            ["🥩", "Stocking up the pantry & freezer", "Buy essentials & meat in bulk"],
+            ["🧻", "Everyday household & kitchen supplies", "Stretch our monthly family budget"]
+          ]
+        }
+      ];
+
+      // Put event tracking code below this line.
+      function sendEvent(eventName) {
+        try {
+          if (typeof window.fbq === "function") {
+            window.fbq("trackCustom", eventName);
+          }
+        } catch (e) {}
+      }
+
+      // Wire destination link from cta-config.js
+      var cfg = window.GROCERY_CTA || {};
+      var ctaUrl = cfg.url || "https://tk.freerewards.blog/cf/click/1";
+      var mainCta = document.getElementById("recoDownloadCta");
+
+      if (mainCta && ctaUrl) {
+        mainCta.setAttribute("href", ctaUrl);
+        mainCta.setAttribute("target", cfg.target || "_blank");
+        if (cfg.rel) mainCta.setAttribute("rel", cfg.rel);
+      }
+
+      var introSec = document.getElementById("introSection");
+      var questionSec = document.getElementById("questionSection");
+      var checkingSec = document.getElementById("checkingSection");
+      var resultSec = document.getElementById("resultSection");
+      var stepLabel = document.getElementById("stepLabel");
+      var percentEl = document.getElementById("percent");
+      var progressFill = document.getElementById("progressFill");
+      var stickyBar = document.getElementById("stickyBar");
+
+      var modal = document.getElementById("recoModal");
+      var closeBtn = document.getElementById("closeModalBtn");
+      var reqBox = document.getElementById("reqBox");
+      var statusMsg = document.getElementById("modalStatusMsg");
+      var alreadyBtn = document.getElementById("alreadyRegisteredBtn");
+
+      function openModal() {
+        if (!modal) return;
+        modal.classList.add("open");
+        modal.setAttribute("aria-hidden", "false");
+        sendEvent("ModalOpen");
+      }
+
+      function closeModal() {
+        if (!modal) return;
+        modal.classList.remove("open");
+        modal.setAttribute("aria-hidden", "true");
+        if (statusMsg) statusMsg.classList.remove("show");
+      }
+
+      function renderQuestion(index) {
+        var q = questions[index];
+        introSec.classList.add("hidden");
+        checkingSec.classList.remove("show");
+        resultSec.classList.remove("show");
+        if (stickyBar) stickyBar.classList.add("hidden");
+
+        var pct = index === 0 ? "33%" : index === 1 ? "66%" : "90%";
+        stepLabel.textContent = "Step " + (index + 1) + " of 3";
+        percentEl.textContent = pct;
+        progressFill.style.width = pct;
+
+        questionSec.className = "question-sec show";
+        questionSec.innerHTML =
+          '<div class="qtag">📋 Question ' +
+          (index + 1) +
+          ' of 3</div>' +
+          '<h2 class="qtitle">' +
+          q.title +
+          "</h2>" +
+          (q.desc ? '<p class="qdesc">' + q.desc + "</p>" : "") +
+          '<div class="options">' +
+          q.options
+            .map(function (o) {
+              return (
+                '<button type="button" class="option">' +
+                '<span class="option-icon">' +
+                o[0] +
+                "</span>" +
+                "<span><b>" +
+                o[1] +
+                "</b><small>" +
+                o[2] +
+                "</small></span>" +
+                "</button>"
+              );
+            })
+            .join("") +
+          "</div>";
+
+        Array.prototype.forEach.call(
+          questionSec.querySelectorAll(".option"),
+          function (btn) {
+            btn.addEventListener("click", function () {
+              if (index < 2) {
+                renderQuestion(index + 1);
+              } else {
+                showChecking();
+              }
+            });
+          }
+        );
+
+        window.scrollTo({ top: 0, behavior: "instant" });
+      }
+
+      function showChecking() {
+        questionSec.classList.remove("show");
+        checkingSec.classList.add("show");
+        stepLabel.textContent = "Checking Eligibility...";
+        percentEl.textContent = "100%";
+        progressFill.style.width = "100%";
+
+        var items = Array.prototype.slice.call(
+          checkingSec.querySelectorAll(".verify-item")
+        );
+        items.forEach(function (item) {
+          item.classList.remove("done");
+        });
+        items.forEach(function (item, idx) {
+          setTimeout(function () {
+            item.classList.add("done");
+          }, 500 + idx * 700);
+        });
+
+        setTimeout(showResult, 2900);
+        window.scrollTo({ top: 0, behavior: "instant" });
+      }
+
+      function showResult() {
+        checkingSec.classList.remove("show");
+        resultSec.classList.add("show");
+        stepLabel.textContent = "Complete";
+        percentEl.textContent = "100%";
+        progressFill.style.width = "100%";
+        quizCompleted = true;
+
+        if (stickyBar) {
+          stickyBar.classList.remove("hidden");
+        }
+
+        if (!ended) {
+          sendEvent("QuizEnd");
+          ended = true;
+        }
+
+        window.scrollTo({ top: 0, behavior: "instant" });
+
+        // Start live Reco toast notifications on the final page
+        setTimeout(triggerToast, 1200);
+        if (!notifInterval) {
+          notifInterval = setInterval(triggerToast, 9500);
+        }
+      }
+
+      // Start Quiz triggers
+      Array.prototype.forEach.call(
+        document.querySelectorAll('[data-start-quiz="true"]'),
+        function (el) {
+          el.addEventListener("click", function (e) {
+            e.preventDefault();
+            if (!started) {
+              sendEvent("QuizStart");
+              started = true;
+            }
+            renderQuestion(0);
+          });
+        }
+      );
+
+      // Modal triggers on Result page
+      Array.prototype.forEach.call(
+        document.querySelectorAll('[data-open-modal="true"]'),
+        function (el) {
+          el.addEventListener("click", function (e) {
+            e.preventDefault();
+            openModal();
+          });
+        }
+      );
+
+      if (closeBtn) {
+        closeBtn.addEventListener("click", closeModal);
+      }
+
+      if (modal) {
+        modal.addEventListener("click", function (e) {
+          if (e.target === modal) closeModal();
+        });
+      }
+
+      // Track click on Reco download/register CTA -> https://tk.freerewards.blog/cf/click/1
+      if (mainCta) {
+        mainCta.addEventListener("click", function () {
+          hasClickedDownload = true;
+          if (statusMsg) statusMsg.classList.remove("show");
+          sendEvent("ResultButtonClick");
+        });
+      }
+
+      // Secondary link ("I registered on Reco, continue...")
+      if (alreadyBtn) {
+        alreadyBtn.addEventListener("click", function () {
+          if (!hasClickedDownload) {
+            if (reqBox) {
+              reqBox.classList.remove("shake");
+              void reqBox.offsetWidth;
+              reqBox.classList.add("shake");
+            }
+            if (statusMsg) {
+              statusMsg.innerHTML =
+                '⚠️ Step 1 not completed yet: Please tap the green <strong>"Download Reco &amp; Unlock"</strong> button above to install Reco and create your free 18+ account first.';
+              statusMsg.classList.add("show");
+            }
+          } else {
+            if (statusMsg) {
+              statusMsg.innerHTML =
+                '⏳ Checking your Reco registration... Please make sure you completed your free 18+ signup inside the Reco app! <a href="' +
+                ctaUrl +
+                '" target="_blank" rel="nofollow sponsored noopener" style="color:#9e2512;text-decoration:underline;margin-left:4px;">Open Reco →</a>';
+              statusMsg.classList.add("show");
+            }
+            sendEvent("VerifyRegistrationClick");
+          }
+        });
+      }
+
+      // 4:59 expiry countdown on Result page
+      var expirySeconds = 299;
+      setInterval(function () {
+        expirySeconds = expirySeconds <= 1 ? 299 : expirySeconds - 1;
+        var m = String(Math.floor(expirySeconds / 60));
+        var s = String(expirySeconds % 60).padStart(2, "0");
+        var expEl = document.getElementById("expiry");
+        if (expEl) expEl.textContent = m + ":" + s;
+      }, 1000);
+
+      // Top live counter
+      setInterval(function () {
+        var el = document.getElementById("watchCount");
+        if (!el) return;
+        var v = parseInt(el.textContent, 10) || 68;
+        var d = 1 + ((Math.random() * 3) | 0);
+        var n = v + (Math.random() < 0.5 ? -d : d);
+        n = Math.max(52, Math.min(88, n));
+        el.textContent = n;
+      }, 4200);
+
+      // Remaining spots counter
+      setInterval(function () {
+        var el = document.getElementById("spots");
+        if (!el) return;
+        var v = parseInt(el.textContent, 10) || 22;
+        if (v > 7) {
+          el.textContent = v - 1;
+        }
+      }, 48000);
+
+      // Redeemed counter on Result page
+      var redeemedEl = document.getElementById("redeemedCount");
+      var lastClaimedEl = document.getElementById("lastClaimed");
+      var redeemedCount = 12859;
+      var claimTimes = ["Just now", "1 min ago", "2 min ago", "1 min ago"];
+      var timeIdx = 2;
+
+      setInterval(function () {
+        if (Math.random() > 0.45) {
+          redeemedCount += 1;
+          if (redeemedEl) redeemedEl.textContent = redeemedCount.toLocaleString("en-US");
+          timeIdx = (timeIdx + 1) % claimTimes.length;
+          if (lastClaimedEl) lastClaimedEl.textContent = claimTimes[timeIdx];
+        }
+      }, 4000);
+
+      // Floating Notification Toast cycle (active on Result page)
+      var toast = document.getElementById("notifToast");
+      var notifText = document.getElementById("notifText");
+      var notifTime = document.getElementById("notifTime");
+      var notifications = [
+        { name: "Linda M.", action: "just unlocked her", amount: "$500 Grocery Card", time: "Just now" },
+        { name: "Robert T.", action: "completed Step 1 & claimed", amount: "$500", time: "1m ago" },
+        { name: "Karen S.", action: "just unlocked her", amount: "$500 Grocery Card", time: "Just now" },
+        { name: "David W.", action: "registered on Reco & claimed", amount: "$500", time: "2m ago" }
+      ];
+      var notifIdx = 0;
+
+      function triggerToast() {
+        if (!toast || !notifText || !quizCompleted) return;
+        var item = notifications[notifIdx % notifications.length];
+        notifIdx++;
+        notifText.innerHTML =
+          item.name + " " + item.action + " <strong>" + item.amount + "</strong>";
+        if (notifTime) notifTime.textContent = item.time;
+        toast.classList.add("show");
+        setTimeout(function () {
+          toast.classList.remove("show");
+        }, 4200);
+      }
+    })();
+  </script>
+  <!-- Put tracker script code below this line. -->
+  <!-- Add your approved tracker snippet here when you are ready to connect a destination. -->
+</body>
+</html>
